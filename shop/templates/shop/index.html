@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta name="viewport" content="width=device-width" />
     <title>Товары</title>
-</head>
-<body>
+  </head>
+  <body>
     <div>
-        <h3>Список</h3>
-        <table>
-            <tr>
-                <td><p>Наименование</p></td>
-                <td><p>Цена</p></td>
-                <td></td>
-            </tr>
-            {% for p in products %}
-                <tr>
-                    <td><p>{{ p.name }}</p></td>
-                    <td><p>{{ p.price }}</p></td>
-                    <td><p><a href="/buy/{{ p.id }}">Купить</a></p></td>
-                </tr>
-            {% endfor %}
-        </table>
+      <h3>Список товаров</h3>
+      <table border="1">
+        <tr>
+          <th>Наименование</th>
+          <th>Цена за шт.</th>
+          <th>Купить</th>
+        </tr>
+        {% for p in products %}
+        <tr>
+          <td>{{ p.name }}</td>
+          <td>{{ p.price }} руб.</td>
+          <td><a href="/buy/{{ p.id }}">Купить</a></td>
+        </tr>
+        {% endfor %}
+      </table>
     </div>
-</body>
+  </body>
 </html>

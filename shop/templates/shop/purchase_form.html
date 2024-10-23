@@ -1,28 +1,45 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta name="viewport" content="width=device-width" />
     <title>Покупка</title>
-</head>
-<body>
+  </head>
+  <body>
     <div>
-        <h3>Покупка</h3>
-        <form method="post">{% csrf_token %}
-            <input type="hidden" value="{{ view.kwargs.product_id }}" name="product" />
-            <table>
-                <tr>
-                    <td><p>Введите свое имя </p></td>
-                    <td><input type="text" name="person" /> </td>
-                </tr>
-                <tr>
-                    <td><p>Введите адрес доставки:</p></td>
-                    <td>
-                        <input type="text" name="address" />
-                    </td>
-                </tr>
-                <tr><td><input type="submit" value="Отправить" /> </td><td></td></tr>
-            </table>
-        </form>
+      <h3>Покупка</h3>
+      <form method="post">
+        {% csrf_token %}
+        <input
+          type="hidden"
+          value="{{ view.kwargs.product_id }}"
+          name="product"
+        />
+        <table>
+          <tr>
+            <td><p>Введите свое имя:</p></td>
+            <td><input type="text" name="person" required /></td>
+          </tr>
+          <tr>
+            <td><p>Введите адрес доставки:</p></td>
+            <td><input type="text" name="address" required /></td>
+          </tr>
+          <tr>
+            <td><p>Выберите количество:</p></td>
+            <td>
+              <input type="number" name="quantity" value="1" min="1" required />
+            </td>
+          </tr>
+          <tr>
+            <td><p>От 5 товаров скидка в 10%</p></td>
+          </tr>
+          <tr>
+            <td><p>А от 10 товаров скидка в 20%</p></td>
+          </tr>
+          <tr>
+            <td><input type="submit" value="Отправить" /></td>
+          </tr>
+        </table>
+      </form>
     </div>
-</body>
+  </body>
 </html>
