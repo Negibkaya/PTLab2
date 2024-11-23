@@ -49,14 +49,10 @@ class PurchaseTestCase(TestCase):
         self.assertEqual(self.purchase.person, "Ivanov")
         self.assertEqual(self.purchase.address, "Svetlaya St.")
         self.assertEqual(self.purchase.quantity, 3)
-        self.assertTrue(
-            self.purchase.date.replace(microsecond=0) ==
-            self.datetime.replace(microsecond=0)
-        )
+        self.assertEqual(self.purchase.date, self.datetime)
 
     def test_str_method(self):
-        expected_str = "Ivanov - book (3 шт.)"
-        self.assertEqual(str(self.purchase), expected_str)
+        self.assertEqual(str(self.purchase), "Ivanov - book (3 шт.)")
 
     def test_foreign_key_relationship(self):
         self.assertEqual(self.purchase.product, self.product_book)

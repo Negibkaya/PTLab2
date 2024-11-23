@@ -21,7 +21,7 @@ class PurchaseCreateTestCase(TestCase):
         })
         self.assertEqual(response.status_code, 200)
         self.assertContains(
-            response, 'Спасибо за покупку, Ivanov! Вы приобрели 2 шт. товара. Итоговая цена: 1480.00 руб. Вы купили товар book.')
+            response, 'Спасибо за покупку, Ivanov! Теперь у вас 2 шт. товара book. Итоговая цена: 1480.00 руб.')
 
     def test_purchase_creation_with_10_discount(self):
         response = self.client.post(reverse('buy', args=[self.product.id]), {
@@ -32,7 +32,7 @@ class PurchaseCreateTestCase(TestCase):
         })
         self.assertEqual(response.status_code, 200)
         self.assertContains(
-            response, 'Спасибо за покупку, Ivanov! Вы приобрели 5 шт. товара. Применена скидка 10%. Итоговая цена: 3330.00 руб. Вы купили товар book.')
+            response, 'Спасибо за покупку, Ivanov! Теперь у вас 5 шт. товара book. Применена скидка 10%. Итоговая цена: 3330.00 руб.')
 
     def test_purchase_creation_with_20_discount(self):
         response = self.client.post(reverse('buy', args=[self.product.id]), {
@@ -43,4 +43,4 @@ class PurchaseCreateTestCase(TestCase):
         })
         self.assertEqual(response.status_code, 200)
         self.assertContains(
-            response, 'Спасибо за покупку, Ivanov! Вы приобрели 10 шт. товара. Применена скидка 20%. Итоговая цена: 5920.00 руб. Вы купили товар book.')
+            response, 'Спасибо за покупку, Ivanov! Теперь у вас 10 шт. товара book. Применена скидка 20%. Итоговая цена: 5920.00 руб.')

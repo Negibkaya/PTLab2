@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from .models import Product, Purchase
 
@@ -15,29 +14,38 @@ class PurchaseCreate(CreateView):
     fields = ['product', 'person', 'address', 'quantity']
 
     def form_valid(self, form):
-        purchase = form.save(commit=False)
-        product = purchase.product.name
-        person = purchase.person
-        quantity = int(purchase.quantity)
+        product = form.cleaned_data['product']
+        person_name = form.cleaned_data['person']
+        quantity = form.cleaned_data['quantity']
+        address = form.cleaned_data['address']
+
+        purchases = Purchase.objects.filter(
+            person=person_name, product=product)
+
+        if purchases.exists():
+            purchase = purchases.first()
+            total_quantity = purchase.quantity + quantity
+            purchase.quantity += quantity  # Обновляем количество
+        else:
+            purchase = Purchase(product=product, person=person_name,
+                                address=address, quantity=quantity)
+            total_quantity = quantity
 
         discount = 0
-        if quantity >= 10:
+        if total_quantity >= 10:
             discount = 20  # 20% скидка
-        elif quantity >= 5:
+        elif total_quantity >= 5:
             discount = 10  # 10% скидка
 
-        total_price = purchase.product.price * quantity * (1 - discount / 100)
+        total_price = product.price * total_quantity * (1 - discount / 100)
+
         purchase.save()
 
-        message = f'Спасибо за покупку, {person}! '
-        message += f'Вы приобрели {quantity} шт. товара. '
-
+        message = f'Спасибо за покупку, {person_name}! '
+        message += f'Теперь у вас {total_quantity} шт. товара {product.name}. '
         if discount > 0:
             message += f'Применена скидка {discount}%. '
-
         message += f'Итоговая цена: {total_price:.2f} руб. '
-        message += f'Вы купили товар {product}. '
 
         context = {'message': message}
-
         return render(self.request, 'shop/purchase_success.html', context)
